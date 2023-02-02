@@ -30,6 +30,7 @@ html, body {
   -moz-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   cursor: default;
+	scroll-behavior:smooth;
 }
 
 input, button, textarea {
