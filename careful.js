@@ -34,9 +34,9 @@ color();
 
 
 let setMargin = setInterval(() => {
-	if(carefulArray[carefulArray.length - 1].style){
+	if (carefulArray[carefulArray.length - 1].style) {
 		let r = parseInt(carefulArray[carefulArray.length - 1].style.left)
-	
+
 		if (r > 100) {
 			for (let i = 0; i < carefulArray.length; i++) {
 				carefulArray[i].style.left = `${parseInt(carefulArray[i].style.left) - 100}%`;
@@ -138,73 +138,123 @@ setCurrentGap()
 // СМЕЩЕНИЕ ПРИ ПЕРЕТАСКИВАНИИ И ПЛАВНЫЙ ВОЗВРАТ ПРИ ОТПУСКАНИИ--------------------------
 for (let item of carefulArray) {
 
-
-	const move = (event) => {
-		for (let i = 0; i < carefulArray.length; i++) {
-			let target = (event.clientX - touchOffsetX) + initIndent[i]
-
-			carefulArray[i].style.transition = '0s'
-			carefulArray[i].style.left = `${target + 377}px`
-		}
-	}
+	let rrr = false
 
 	// СЕТАЕМ НАЧАЛЬНОЕ ПОЛОЖЕНИЕ НАЖАТИЯ
-	item.addEventListener('pointerdown', () => {
+	item.onmousedown = (event) => {
+		clearInterval(setMargin);
+		rrr = true
 
 		initIndent = []
-		touchOffsetX = window.event.pageX
+		touchOffsetX = event.pageX
 
 		for (let i = 0; i < carefulArray.length; i++) {
 			initIndent[i] = carefulArray[i].getBoundingClientRect().left
 		}
 
 
-		// ОБНОВЛЯЕМ ПОЛОЖЕНИЕ ЭЛЕМЕНТОВ ПРИ ДВИЖЕНИИ по ТАЧУ
-		document.body.addEventListener('pointermove', (event) =>  {
-			move(event)
-		})
-	})
 
-	// ЦЕНТРУЕМ ПОЛОЖЕНИЕ БЛОКОВ В ЗАВИСИМОСТИ ОТ БЛИЖАЙШЕГО К "left" ПОСЛЕ ОТЖАТИЯ ТАЧА
-	document.body.addEventListener('pointerup', () => {
-			document.body.removeEventListener('pointermove', move)
-		let arr = []
 
-		clearInterval(setMargin);
-		setMargin = setInterval(() => {
-			let r = parseInt(carefulArray[carefulArray.length - 1].style.right);
-			if (r < 0) {
-				for (let i = 0; i < carefulArray.length; i++) {
-					carefulArray[i].style.right = `${100 + parseInt(carefulArray[i].style.right)
-						}%`;
-				}
-			} else {
-				for (let i = 0; i < carefulArray.length; i++) {
-					carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) - 900
-						}%`;
-				}
+
+		// ОБНОВЛЯЕМ ПОЛОЖЕНИЕ ЭЛЕМЕНТОВ ПРИ ДВИЖЕНИИ КУРСОРА
+		document.onmousemove = (event) => {
+			if (!rrr) {
+				return
 			}
-			color();
-		}, 15000);
 
-		for (let i = 0; i < carefulArray.length; i++) {
-			carefulArray[i].style.transition = '1s ease-in-out'
-			arr[i] = Math.abs(parseInt(carefulArray[i].style.left))
+			for (let i = 0; i < carefulArray.length; i++) {
+				let target = initIndent[i] - (touchOffsetX - event.pageX)
+
+
+				carefulArray[i].style.transition = '0s'
+				carefulArray[i].style.left = `${target + 255}px`
+			}
+
 		}
 
 
-		for (let i = 0; i < carefulArray.length; i++) {
-			if (Math.min(...arr) == arr[i]) {
-				for (let w = 0; w < carefulArray.length; w++) {
-					carefulArray[w].style.left = `${((parseInt(carefulArray[w].id)) * 100) - (i * 100)}%`
+		document.onmouseup = () => {
+			rrr = false
+
+			let arr = []
+
+
+
+			for (let i = 0; i < carefulArray.length; i++) {
+				carefulArray[i].style.transition = '1s ease-in-out'
+				arr[i] = Math.abs(parseInt(carefulArray[i].style.left))
+			}
+
+
+
+
+
+			for (let i = 0; i < carefulArray.length; i++) {
+				if (Math.min(...arr) == arr[i]) {
+					for (let w = 0; w < carefulArray.length; w++) {
+						carefulArray[w].style.left = `${(parseInt(carefulArray[w].id) * 100) - (i * 100)}%`
+					}
+
 				}
 			}
+
+
+
+			if (parseInt(carefulArray[carefulArray.length - 1].style.left) < 100) {
+				for (let t = 0; t < carefulArray.length; t++) {
+					carefulArray[t].style.left = `${(parseInt(carefulArray[t].id) * 100) - ((carefulArray.length - 2) * 100)}%`
+				}
+			}
+
+
+
+
+
+
+			color()
+			setMargin = setInterval(() => {
+				let r = parseInt(carefulArray[carefulArray.length - 1].style.right);
+				if (r < 0) {
+					for (let i = 0; i < carefulArray.length; i++) {
+						carefulArray[i].style.left = `${100 + parseInt(carefulArray[i].style.right)
+							}%`;
+					}
+				} else {
+					for (let i = 0; i < carefulArray.length; i++) {
+						carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) - 900
+							}%`;
+					}
+				}
+				color();
+			}, 15000);
 		}
-		color()
-	})
-
-
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -340,7 +390,7 @@ const setCarefulMobileHeight = () => {
 	const style = document.createElement(`style`)
 	style.setAttribute(`id`, `styleHeight`)
 	document.head.appendChild(style)
-	
+
 
 
 	const swiper = document.querySelector(`.careful__mobile-swiper`)
@@ -351,7 +401,7 @@ const setCarefulMobileHeight = () => {
 	swiper.setAttribute(`style`, `height: ${Math.floor(swiperCntr.getBoundingClientRect().width / 100 * 177 + 50)}px;`)
 }
 setCarefulMobileHeight()
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
 	setCarefulMobileHeight()
 });
 
@@ -407,6 +457,33 @@ for (let item of carefulMobileCntr) {
 	});
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -579,3 +656,98 @@ for (let item of carefulMobileText) {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Получаем коллекцию блоков слайдера
+const nav = document.querySelectorAll(`.nav__li`);
+
+
+
+
+// СМЕНА ЦВЕТА ТОЧКИ, РАВНОЙ ЭЛЕМЕНТУ МАССИВА СО ЗНАЧЕНИЕМ left === `3%`---------------------------
+const colorNav = () => {
+
+	const carefulMobileDots = document.querySelectorAll(`.careful__mobile-text-dot`);
+	for (let i = 0; i < carefulMobileText.length; i++) {
+		if (carefulMobileText[i].style.left === `3%`) {
+			carefulMobileDots[i].style.backgroundColor = `#21201f`;
+		} else {
+			carefulMobileDots[i].style.backgroundColor = `#aaa9a7`;
+		}
+
+
+
+		carefulMobileDots[i].onmouseover = () => {
+			if (carefulMobileDots[i].style.backgroundColor == "rgb(170, 169, 167)") {
+				carefulMobileDots[i].style.backgroundColor = "#6c6c6c";
+			}
+		}
+		carefulMobileDots[i].onmouseout = () => {
+			if (carefulMobileDots[i].style.backgroundColor == "rgb(33, 32, 31)") {
+				carefulMobileDots[i].style.backgroundColor = "rgb(33, 32, 31)";
+			} else {
+				carefulMobileDots[i].style.backgroundColor = "#aaa9a7";
+			}
+		}
+	}
+}
+colorNav()
+
+
+
+
+
+
+
+// ПЕРЕМЕЩАЕНИЕ БЛОКОВ В ЗАВИСИМОСТИ ОТ НАЖАТОЙ ТОЧКИ----------------------------------
+const setNavNewPosition = () => {
+	const carefulMobileDots = document.querySelectorAll(`.careful__mobile-text-dot`);
+	for (let item of carefulMobileDots) {
+		item.addEventListener("touchstart", () => {
+			for (let i = 0; i < carefulMobileText.length; i++) {
+
+				carefulMobileText[i].setAttribute(`style`, `left: ${(parseInt(carefulMobileText[i].id) * 100) + 3}%`)
+				carefulMobileText[i].setAttribute(`style`, `left: ${parseInt(carefulMobileText[i].style.left) - ((parseInt(item.id)) * 100)}%`)
+			}
+			colorCarefulMobileText();
+		});
+	}
+}
+setCarefulMobileTextNewPosition()
