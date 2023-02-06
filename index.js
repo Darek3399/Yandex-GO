@@ -103,8 +103,10 @@ for (let item of tariffItems) {
 	item.addEventListener('touchend', function () {
 		let arr = []
 
+
 		for (let i = 0; i < tariffItems.length; i++) {
 			arr[i] = Math.abs(parseInt(tariffItems[i].style.left))
+			tariffItems[i].style.transition = '1s ease-in-out'
 		}
 
 
@@ -499,7 +501,7 @@ if (devices.test(navigator.userAgent)) {
 	.careful__green-heart{
 		width: 97%;
 		margin: 0 0 0 0;
-		margin-top: -120px;
+		margin-top: -100px;
 		padding: 32px;
 		transform: translate(0);
 	}
@@ -509,6 +511,13 @@ if (devices.test(navigator.userAgent)) {
 		max-width: 100%;
 		line-height: 120%;
 	}
+
+	
+@media screen and (max-width: 814px) {
+	.careful__green-heart{
+		margin-top: -120px;
+	}
+}
 
 	`)
 }
@@ -582,6 +591,30 @@ if (devices.test(navigator.userAgent)) {
 }
 else {
 	style.insertAdjacentHTML(`beforeend`, `
+	`)
+}
+
+
+
+
+
+
+
+
+
+
+
+// link---------------------------------------------------------------
+const mLink = document.querySelector(`.header__span`)
+const descLink = document.querySelector(`.header__span`)
+if (devices.test(navigator.userAgent)) {
+	mLink.insertAdjacentHTML(`beforeend`, `
+	<a id="download"></a>
+	`)
+}
+else {
+	descLink.insertAdjacentHTML(`beforeend`, `
+		<a id="download" style="position: absolute; top: 0"></a>
 	`)
 }
 
