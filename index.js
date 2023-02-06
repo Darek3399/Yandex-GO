@@ -309,7 +309,9 @@ else {
 
 
 // map-video------------------------------------------------------------------------
+const ticketToggleLink = document.querySelector(`.ticket-toggle`)
 if (devices.test(navigator.userAgent)) {
+	ticketToggleLink.setAttribute(`href`, `#mTicket`)
 	style.insertAdjacentHTML(`beforeend`, `
 			.how-rent__h1{
 				font-size: 36px;
@@ -344,9 +346,14 @@ if (devices.test(navigator.userAgent)) {
 				margin-bottom: 170px;
 
 			}
+			#rent{
+				position: relative;
+				bottom: 30px;
+			}
 		`)
 }
 else {
+	ticketToggleLink.setAttribute(`href`, `#descTicket`)
 	style.insertAdjacentHTML(`beforeend`, `
 		.how-rent__video-mobile{
 			display: none;
