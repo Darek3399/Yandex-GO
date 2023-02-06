@@ -6,7 +6,13 @@ body {
 	position: relative;
 	height: fit-content;
 }
-
+html{
+	scroll-behavior:smooth
+}
+a{
+	
+	transition: 1s ease-in-out;
+}
 .nav {
 	position: fixed;
 	z-index: 999;
@@ -644,6 +650,7 @@ body{
 	justify-content: center;
 	align-items: center;
 	min-width: 920px;
+	position: relative;
 	&__swiper {
 		width: 1013px;
 		margin: 0 auto;
@@ -791,11 +798,6 @@ body{
 		margin-top: -70px;
 	}
 }
-@media screen and (min-width: 814px) {
-	.careful__green-heart{
-		margin-top: -40px!important;
-	}
-}
 
 
 
@@ -815,6 +817,7 @@ body{
 
 .map {
 	font-family: Text, Helvetica, Arial, sans-serif;
+	position: relative;
 	color: #21201f;
 	background: rgb(255, 255, 255);
 	padding-top: 88px;
