@@ -616,12 +616,10 @@ const mLink = document.querySelector(`.header__span`)
 const descLink = document.querySelector(`.header__span`)
 if (devices.test(navigator.userAgent)) {
 	mLink.insertAdjacentHTML(`beforeend`, `
-	<a id="download"></a>
 	`)
 }
 else {
 	descLink.insertAdjacentHTML(`beforeend`, `
-		<a id="download" style="position: absolute; top: 0"></a>
 	`)
 }
 
