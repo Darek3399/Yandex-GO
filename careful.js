@@ -1,6 +1,7 @@
 
 
 
+const carefulArrayCntr = document.querySelector(`.careful__swiper-video-cntr`)
 const carefulArray = document.querySelectorAll(`.careful__video`)
 
 
@@ -23,7 +24,7 @@ setDots();
 const dots = document.querySelectorAll(`.dot`);
 const color = () => {
 	for (let i = 0; i < carefulArray.length; i++) {
-		if (carefulArray[i].style.left === "100%") {
+		if (carefulArray[i].style.right === "0%") {
 			dots[i].style.backgroundColor = `#21201f`;
 		} else {
 			dots[i].style.backgroundColor = `#aaa9a7`;
@@ -34,22 +35,19 @@ color();
 
 
 let setMargin = setInterval(() => {
-	if (carefulArray[carefulArray.length - 1].style) {
-		let r = parseInt(carefulArray[carefulArray.length - 1].style.left)
+	let r = parseInt(carefulArray[carefulArray.length - 1].style.right)
 
-		if (r > 100) {
-			for (let i = 0; i < carefulArray.length; i++) {
-				carefulArray[i].style.left = `${parseInt(carefulArray[i].style.left) - 100}%`;
-			}
-		} else {
-			for (let i = 0; i < carefulArray.length; i++) {
-				carefulArray[i].style.left = `${parseInt(carefulArray[i].style.left) + 900}%`;
-			}
+	if (r < 0) {
+		for (let i = 0; i < carefulArray.length; i++) {
+			carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) + 100}%`;
 		}
-		color();
+	} else {
+		for (let i = 0; i < carefulArray.length; i++) {
+			carefulArray[i].style.right = `-${((parseInt(carefulArray[i].id)) * 100)}%`
+		}
 	}
-}, 15000);
-
+	color()
+}, 15000)
 
 const toggleInterval = () => {
 	for (let item of carefulArray) {
@@ -60,24 +58,23 @@ const toggleInterval = () => {
 		});
 		item.addEventListener("pause", () => {
 			setMargin = setInterval(() => {
-				let r = parseInt(carefulArray[carefulArray.length - 1].style.right);
+				let r = parseInt(carefulArray[carefulArray.length - 1].style.right)
+
 				if (r < 0) {
 					for (let i = 0; i < carefulArray.length; i++) {
-						carefulArray[i].style.right = `${100 + parseInt(carefulArray[i].style.right)
-							}%`;
+						carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) + 100}%`;
 					}
 				} else {
 					for (let i = 0; i < carefulArray.length; i++) {
-						carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) - 900
-							}%`;
+						carefulArray[i].style.right = `-${((parseInt(carefulArray[i].id)) * 100)}%`
 					}
 				}
 				color();
-			}, 15000);
+			}, 15000)
 		});
 	}
 };
-toggleInterval();
+toggleInterval()
 
 
 for (let item of dots) {
@@ -95,39 +92,34 @@ for (let item of dots) {
 	};
 	item.addEventListener('click', () => {
 		for (let i = 0; i < carefulArray.length; i++) {
-			carefulArray[i].style.left = `${(parseInt(carefulArray[i].id) + 1) * 100}%`;
+			carefulArray[i].style.right = `-${(parseInt(carefulArray[i].id)) * 100}%`
 
-
-			carefulArray[i].style.left = `${(parseInt(carefulArray[i].style.left) - (parseInt(item.id)) * 100)
-				}%`;
+			carefulArray[i].style.right = `${(parseInt(carefulArray[i].style.right) + (parseInt(item.id)) * 100)}%`
 		}
-		toggleInterval();
+		toggleInterval()
 		color();
 		clearInterval(setMargin);
 		setMargin = setInterval(() => {
-			let r = parseInt(carefulArray[carefulArray.length - 1].style.right);
+			let r = parseInt(carefulArray[carefulArray.length - 1].style.right)
 			if (r < 0) {
 				for (let i = 0; i < carefulArray.length; i++) {
-					carefulArray[i].style.right = `${100 + parseInt(carefulArray[i].style.right)
-						}%`;
+					carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) + 100}%`;
 				}
 			} else {
 				for (let i = 0; i < carefulArray.length; i++) {
-					carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) - 900
-						}%`;
+					carefulArray[i].style.right = `-${((parseInt(carefulArray[i].id)) * 100)}%`
 				}
 			}
 			color();
-		}, 15000);
+		}, 15000)
 	})
 }
 
 
 // // СЕТАЕМ ИЗНАЧАЛЬНОЕ РАЗПОЛОЖЕНИЕ БЛОКОВ
 const setCurrentGap = () => {
-	// console.log(parseInt(mTicketSlides[i].id))
 	for (let i = 0; i < carefulArray.length; i++) {
-		carefulArray[i].style.left = `${((parseInt(carefulArray[i].id) + 1) * 100)}%`
+		carefulArray[i].style.right = `-${((parseInt(carefulArray[i].id)) * 100)}%`
 	}
 	color();
 }
@@ -135,76 +127,89 @@ setCurrentGap()
 
 
 
-// СМЕЩЕНИЕ ПРИ ПЕРЕТАСКИВАНИИ И ПЛАВНЫЙ ВОЗВРАТ ПРИ ОТПУСКАНИИ--------------------------
+// // СМЕЩЕНИЕ ПРИ ПЕРЕТАСКИВАНИИ И ПЛАВНЫЙ ВОЗВРАТ ПРИ ОТПУСКАНИИ--------------------------
 for (let item of carefulArray) {
-
 	let rrr = false
+	let arr = []
+
+	const offsetRight = (i) => {
+		return carefulArrayCntr.offsetWidth - (carefulArray[i].offsetWidth + carefulArray[i].offsetLeft)
+	}
 
 	// СЕТАЕМ НАЧАЛЬНОЕ ПОЛОЖЕНИЕ НАЖАТИЯ
-	item.onmousedown = (event) => {
+	item.addEventListener('mousedown', (e) => {
+
+
+
 		clearInterval(setMargin);
 		rrr = true
 
 		initIndent = []
-		touchOffsetX = event.pageX
+		touchOffsetX = e.screenX
 
 		for (let i = 0; i < carefulArray.length; i++) {
-			initIndent[i] = carefulArray[i].getBoundingClientRect().left
+			initIndent[i] = offsetRight(i)
 		}
 
 
-
-
-
 		// ОБНОВЛЯЕМ ПОЛОЖЕНИЕ ЭЛЕМЕНТОВ ПРИ ДВИЖЕНИИ КУРСОРА
-		document.onmousemove = (event) => {
+		document.addEventListener('mousemove', (event) => {
 			if (!rrr) {
 				return
 			}
 
 			for (let i = 0; i < carefulArray.length; i++) {
-				let target = initIndent[i] - (touchOffsetX - event.pageX)
+
+
+				let target = initIndent[i] + (touchOffsetX - event.screenX)
 
 
 				carefulArray[i].style.transition = '0s'
-				carefulArray[i].style.left = `${target + 255}px`
+				carefulArray[i].style.right = `${target}px`
 			}
 
-		}
+		})
 
 
 		document.onmouseup = () => {
+			clearInterval(setMargin);
+			
 			rrr = false
 
-			let arr = []
+
 
 
 
 			for (let i = 0; i < carefulArray.length; i++) {
 				carefulArray[i].style.transition = '1s ease-in-out'
-				arr[i] = Math.abs(parseInt(carefulArray[i].style.left))
+				arr[i] = Math.abs(offsetRight(i))
 			}
-
-
 
 
 
 			for (let i = 0; i < carefulArray.length; i++) {
 				if (Math.min(...arr) == arr[i]) {
 					for (let w = 0; w < carefulArray.length; w++) {
-						carefulArray[w].style.left = `${(parseInt(carefulArray[w].id) * 100) - (i * 100)}%`
-					}
 
+						carefulArray[w].style.right = `${ (i * 100) - ((parseInt(carefulArray[w].id)) * 100)}%`
+
+
+
+
+
+
+					}
 				}
 			}
-
-
 
 			if (parseInt(carefulArray[carefulArray.length - 1].style.left) < 100) {
 				for (let t = 0; t < carefulArray.length; t++) {
-					carefulArray[t].style.left = `${(parseInt(carefulArray[t].id) * 100) - ((carefulArray.length - 2) * 100)}%`
+					carefulArray[t].style.right = `${(parseInt(carefulArray[t].id) * 100) - ((carefulArray.length - 1) * 100)}%`
 				}
 			}
+
+
+
 
 
 
@@ -213,22 +218,21 @@ for (let item of carefulArray) {
 
 			color()
 			setMargin = setInterval(() => {
-				let r = parseInt(carefulArray[carefulArray.length - 1].style.right);
+				let r = parseInt(carefulArray[carefulArray.length - 1].style.right)
+			
 				if (r < 0) {
 					for (let i = 0; i < carefulArray.length; i++) {
-						carefulArray[i].style.left = `${100 + parseInt(carefulArray[i].style.right)
-							}%`;
+						carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) + 100}%`
 					}
 				} else {
 					for (let i = 0; i < carefulArray.length; i++) {
-						carefulArray[i].style.right = `${parseInt(carefulArray[i].style.right) - 900
-							}%`;
+						carefulArray[i].style.right = `-${((parseInt(carefulArray[i].id)) * 100)}%`
 					}
 				}
-				color();
-			}, 15000);
+				color()
+			}, 15000)
 		}
-	}
+	})
 }
 
 
@@ -285,7 +289,7 @@ const carefulMobileCntr = document.querySelectorAll(`.careful__mobile-swiper-vid
 
 // СОЗДАНИЕ "ТОЧЕК" НА ОСНОВЕ ДЛИНЫ МАССИВА-------------------------------
 const setCarefulMobileDots = () => {
-	// dots for tariff
+	// dots for Careful Mobil
 	for (let i = 0; i < carefulMobileCntr.length; i++) {
 		const carefulMobileDot = document.createElement(`div`);
 		document.querySelector(`.careful__mobile-swiper-dots`).append(carefulMobileDot);
@@ -395,10 +399,12 @@ const setCarefulMobileHeight = () => {
 
 	const swiper = document.querySelector(`.careful__mobile-swiper`)
 	const swiperCntr = document.querySelector(`.careful__mobile-video`)
-	swiperCntr.style.height = swiperCntr.getBoundingClientRect().width / 100 * 177
+	// swiperCntr.style.height = swiperCntr.getBoundingClientRect().width / 100 * 177
 
 
-	swiper.setAttribute(`style`, `height: ${Math.floor(swiperCntr.getBoundingClientRect().width / 100 * 177 + 50)}px;`)
+	swiper.setAttribute(`style`, `height: ${Math.floor(swiperCntr.getBoundingClientRect().width / 100 * 177)}px;`)
+
+
 }
 setCarefulMobileHeight()
 window.addEventListener('resize', function () {
@@ -597,7 +603,6 @@ setCarefulMobileTextNewPosition()
 const setCarefulMobileTextGap = () => {
 	for (let i = 0; i < carefulMobileText.length; i++) {
 		carefulMobileText[i].setAttribute(`style`, `left: ${(parseInt(carefulMobileText[i].id) * 100) + 3}%`)
-
 	}
 }
 setCarefulMobileTextGap()
