@@ -313,6 +313,9 @@ const ticketToggleLink = document.querySelector(`.ticket-toggle`)
 if (devices.test(navigator.userAgent)) {
 	ticketToggleLink.setAttribute(`href`, `#mTicket`)
 	style.insertAdjacentHTML(`beforeend`, `
+			.ticket{
+				border-radius: 30px !important;
+			}
 			.how-rent__h1{
 				font-size: 36px;
 				padding-bottom: 36px;
@@ -376,6 +379,7 @@ if (devices.test(navigator.userAgent)) {
 		.done__text{
 			font-size: 28px;
 			padding: 24px 44px;
+			border-radius: 30px;
 		}
 		`)
 }
@@ -460,8 +464,11 @@ if (devices.test(navigator.userAgent)) {
 		display: none;
 	}
 	.careful{
+		position: relative;
+		min-width: 100%;
 		margin-top: 0;
-		min-width: 97%;
+		z-index: 0;
+		padding-top: 100px;
 	}
 	.careful__info{
 		width: 97%;
@@ -471,6 +478,8 @@ if (devices.test(navigator.userAgent)) {
 		padding-bottom: 98px;
 		border-bottom-left-radius: 0px;
 		border-bottom-right-radius: 0px;
+		border-top-left-radius: 30px;
+		border-top-right-radius: 30px;
 	}
 	.careful__info-h2{
 		font-size: 36px;
@@ -506,8 +515,9 @@ if (devices.test(navigator.userAgent)) {
 
 
 	.careful__green-heart{
+		border-radius: 30px;
 		width: 97%;
-		margin: 0 0 0 0;
+		margin: 0;
 		margin-top: -100px;
 		padding: 32px;
 		transform: translate(0);
@@ -602,15 +612,6 @@ else {
 }
 
 
-
-
-
-
-
-
-
-
-
 // link---------------------------------------------------------------
 const mLink = document.querySelector(`.header__span`)
 const descLink = document.querySelector(`.header__span`)
@@ -622,7 +623,5 @@ else {
 	descLink.insertAdjacentHTML(`beforeend`, `
 	`)
 }
-
-
 
 
