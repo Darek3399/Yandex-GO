@@ -582,6 +582,7 @@ a {
   border-radius: 56px 56px 0 0;
   padding: 128px 0 256px;
   color: #21201f;
+  overflow: hidden;
 }
 .ticket__cntr {
   position: relative;
@@ -671,6 +672,9 @@ a {
   left: 50%;
   transform: translate(-50%);
 }
+.mticket__link {
+  display: none;
+}
 
 @media screen and (max-width: 814px) {
   .ticket {
@@ -712,57 +716,88 @@ body {
   padding: 128px 0 64px 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   align-items: center;
   min-width: 920px;
+  width: 100%;
   position: relative;
 }
 .careful__swiper {
-  width: 1013px;
-  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .careful__swiper-video-cntr {
-  margin-left: 112px;
+  width: 954px;
+  height: 414px;
+  position: relative;
+  overflow: hidden;
+  margin-left: 118px;
 }
 .careful__video {
-  left: 100%;
-  transform: translate(-100%);
+  transition: 1s;
+  top: 0;
+  position: absolute;
+  width: 734px;
+  height: 414px;
+  border-radius: 32px;
+  border: none;
+  right: 0;
+}
+.careful__video video {
+  top: 0;
+  right: 0;
+  transition: 1s;
+  position: absolute;
+  width: 734px;
+  height: 414px;
+  border-radius: 32px;
+  border: none;
 }
 .careful__swiper-dots {
   position: relative;
+  display: flex;
+  gap: 6px;
+  bottom: -40px;
+  left: 170px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .careful__mobile-swiper {
   width: 100%;
-  position: relative;
-  top: 50px;
-  overflow: hidden;
-  border-radius: 56px;
-}
-.careful__mobile-swiper-video-cntr {
-  width: 94%;
-  margin: 0 auto;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
+  position: relative;
+  z-index: 2;
+  top: 50px;
+  overflow: hidden;
+}
+.careful__mobile-swiper-video-cntr {
+  top: 0;
+  width: 94%;
+  margin: 0 auto;
+  height: 100%;
   position: absolute;
+  border-radius: 30px;
+  overflow: hidden;
 }
 .careful__mobile-video {
-  display: block;
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  border-radius: 56px;
   margin-right: 3%;
+  border-radius: 30px;
 }
 .careful__mobile-swiper-dots {
-  position: absolute;
-  z-index: 2;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%);
+  justify-content: center;
+  margin-top: 100px;
+  width: 100%;
   display: none;
   gap: 6px;
 }
@@ -818,9 +853,8 @@ body {
   padding-bottom: 80px;
 }
 .careful__green-heart {
-  margin-left: 50%;
+  margin-left: 430px;
   margin-top: -220px;
-  transform: translate(-35%);
   padding: 83px;
   border-radius: 56px;
   background: #00ca50;
