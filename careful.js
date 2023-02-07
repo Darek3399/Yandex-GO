@@ -47,7 +47,7 @@ let setMargin = setInterval(() => {
 		}
 	}
 	color()
-}, 15000)
+}, 10000)
 
 const toggleInterval = () => {
 	for (let item of carefulArray) {
@@ -57,6 +57,7 @@ const toggleInterval = () => {
 			}
 		});
 		item.addEventListener("pause", () => {
+			clearInterval(setMargin);
 			setMargin = setInterval(() => {
 				let r = parseInt(carefulArray[carefulArray.length - 1].style.right)
 
@@ -70,7 +71,7 @@ const toggleInterval = () => {
 					}
 				}
 				color();
-			}, 15000)
+			}, 10000)
 		});
 	}
 };
@@ -111,7 +112,7 @@ for (let item of dots) {
 				}
 			}
 			color();
-		}, 15000)
+		}, 10000)
 	})
 }
 
@@ -230,7 +231,7 @@ for (let item of carefulArray) {
 					}
 				}
 				color()
-			}, 15000)
+			}, 10000)
 		}
 	})
 }
